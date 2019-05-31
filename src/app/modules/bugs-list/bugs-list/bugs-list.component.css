@@ -1,0 +1,8 @@
+
+.thead-dark{
+    cursor: pointer;
+}
+th:hover{
+    background-color: #505050;
+}
+
