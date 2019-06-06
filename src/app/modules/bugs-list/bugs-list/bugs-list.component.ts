@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BugsListService} from '../bugs-list.service';
 import {Bugs,sortType,SortBy} from '../bugs.model';
+//import { AddEditModeService } from '../add-edit-mode.service';
+
 
 @Component({
   selector: 'bugReportingSystem-bugs-list',
@@ -73,5 +75,10 @@ export class BugsListComponent implements OnInit {
     
     this.bugsListService.getBugsList(this.sortBy).subscribe( data => this.bugsList = data);
   }
-
+/*
+  edit(id){
+    console.log(id);
+    this._addEditModeService.addEditMode = "edit";
+  }
+*/
 }

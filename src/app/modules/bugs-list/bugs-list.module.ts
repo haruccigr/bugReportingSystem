@@ -1,14 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BugsListComponent } from './bugs-list/bugs-list.component';
+import { AddEditBugsComponent } from './add-edit-bugs/add-edit-bugs.component';
+import {RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import { HeaderComponent } from './header/header.component';
+
 
 @NgModule({
-  declarations: [BugsListComponent],
+  declarations: [BugsListComponent, AddEditBugsComponent, HeaderComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    FormsModule
   ],
   exports:[
-    BugsListComponent
+    BugsListComponent,
+    AddEditBugsComponent,
+    HeaderComponent
   ]
 })
 export class BugsListModule { }

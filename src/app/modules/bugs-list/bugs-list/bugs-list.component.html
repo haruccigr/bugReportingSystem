@@ -1,13 +1,7 @@
 <div class="container">
     <!-- Content here -->
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">Bug Reporting System - Team 6</h1>
-            <p class="lead">This is a web application implementing a bug reporting system, which displays various
-                software bugs
-                and information concerning them.</p>
-        </div>
-    </div>
+
+    <button type="button" [routerLink]="'add'" class="btn btn-primary">Add a bug</button><br><br>
 
     <div class="row" style="padding:0px;margin:0px;">
         <table class="table">
@@ -26,7 +20,11 @@
                     <td>{{item.priority}}</td>
                     <td>{{item.reporter}}</td>
                     <td>{{item.createdAt}}</td>
-                    <td>{{item.status}}</td>
+                    <td>
+                        {{item.status}}
+                        <button type="button" style="float:right;" [routerLink]="['edit',item.id]"   class="btn btn-primary">Edit</button>
+                    </td>
+                    
                 </tr>
             </tbody>
         </table>
