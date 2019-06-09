@@ -5,10 +5,11 @@ import { AddEditBugsComponent } from './add-edit-bugs/add-edit-bugs.component';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
-  declarations: [BugsListComponent, AddEditBugsComponent, HeaderComponent],
+  declarations: [BugsListComponent, AddEditBugsComponent, HeaderComponent, PageNotFoundComponent],
   imports: [
     CommonModule,
     RouterModule,

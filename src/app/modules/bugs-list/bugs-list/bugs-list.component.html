@@ -1,17 +1,30 @@
+
+
+
 <div class="container">
+    <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Bug Reporting System - Team 6</h1>
+                <p class="lead">This is a web application implementing a bug reporting system, which displays various
+                    software bugs
+                    and information concerning them.</p>
+            </div>
+    </div>
+
     <!-- Content here -->
+    
+    <button type="button" [routerLink]="'add'" class="btn btn-success "><i class="fa fa-plus-circle fa-2x"></i>  Add a bug</button><br><br>
 
-    <button type="button" [routerLink]="'add'" class="btn btn-primary">Add a bug</button><br><br>
-
-    <div class="row" style="padding:0px;margin:0px;">
-        <table class="table">
-            <thead class="thead-dark" (click)="sort($event)">
+    <div class="row" style="padding:10px;margin:0px;background-color:rgb(238, 238, 238);border-radius: 25px;">
+        <table class="table table-hover ">
+            <thead class="thead-dark" >
                 <tr>
-                    <th id="title" scope="col">Title <i class="fa fa-sort"></i></th>
-                    <th id="priority" scope="col">Priority <i class="fa fa-sort"></i></th>
-                    <th id="reporter" scope="col">Reporter <i class="fa fa-sort"></i></th>
-                    <th id="createdAt" scope="col">Date Created <i class="fa fa-sort"></i></th>
-                    <th id="status" scope="col">Status <i class="fa fa-sort"></i></th>
+                    <th id="title" scope="col" (click)="sort($event)">Title <i class="fa fa-sort"></i></th>
+                    <th id="priority" scope="col" (click)="sort($event)">Priority <i class="fa fa-sort"></i></th>
+                    <th id="reporter" scope="col" (click)="sort($event)">Reporter <i class="fa fa-sort"></i></th>
+                    <th id="createdAt" scope="col" (click)="sort($event)">Date Created <i class="fa fa-sort"></i></th>
+                    <th id="status" scope="col" (click)="sort($event)">Status <i class="fa fa-sort"></i></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -19,12 +32,10 @@
                     <td>{{item.title}}</td>
                     <td>{{item.priority}}</td>
                     <td>{{item.reporter}}</td>
-                    <td>{{item.createdAt}}</td>
-                    <td>
-                        {{item.status}}
-                        <button type="button" style="float:right;" [routerLink]="['edit',item.id]"   class="btn btn-primary">Edit</button>
+                    <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{item.status}}</td>
+                    <td> <button type="button"  [routerLink]="['edit',item.id]"   class="btn btn-secondary"> <i class="fa fa-edit"></i> Edit</button>
                     </td>
-                    
                 </tr>
             </tbody>
         </table>

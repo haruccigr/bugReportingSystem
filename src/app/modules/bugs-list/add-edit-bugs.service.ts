@@ -13,7 +13,7 @@ export class AddEditBugsService {
   constructor(private http: HttpClient) { }
 
   getBugById(id: string): Observable<Bugs>{
-    if(id === ("" || null || undefined )){
+    if(id === "" || id === null || id === undefined ){
       console.log("ID ERROR/ getBugById");
     }
     return this.http.get<Bugs>(`${this.get_endpoint}/${id}`);

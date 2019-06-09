@@ -6,3 +6,9 @@ th:hover{
     background-color: #505050;
 }
 
+.jumbotron{
+    border-radius:25px;
+    margin-top:20px;
+    background-color:#252525;
+    color: rgb(209, 209, 209);
+}

@@ -16,8 +16,8 @@ export class AddEditBugsComponent implements OnInit {
   bug: Bugs={ title: '',
               description: '',
               priority: null,
-              reporter: '',
-              status:'',
+              reporter: null,
+              status: null,
               createdAt: new Date(),
               id:'',
               comments: []
@@ -25,19 +25,23 @@ export class AddEditBugsComponent implements OnInit {
 
   addedComment: Comment;
   mode: string;
+  hideAddNotification = true;   // add success notification
+  removeAddNotification = true;
+
+  editPostFlag = false;
 
   priorities = ['Minor','Major','Critical'];
   reporter = ['QA','PO','DEV'];
   status = ['Ready for test','Done','Rejected'];
 
-  selectedPriority;
+  selectedPriority = null;      // used to save user input priority (which is a string)
   
   constructor(private _route: ActivatedRoute, private _addEditBugsService: AddEditBugsService,
     private _bugsListService: BugsListService, private _next_route: Router) { 
   }
 
   ngOnInit() {
-    // set the mode and init bug
+    // set the mode based on id's existence in the url
     let id = this._route.snapshot.params.id;
 
     if(id === undefined){ //add mode
@@ -46,70 +50,111 @@ export class AddEditBugsComponent implements OnInit {
     else{ //edit mode
       this.mode = "edit";
 
+      // init addedComment to whitespace
       this.addedComment = {reporter: '',description: ''};
 
       this._addEditBugsService.getBugById(id).subscribe(data =>{
-        //Cast priority
-        if(data.priority === 1){ 
-          this.selectedPriority = this.priorities[0];
-          console.log("Minor");
-        }
-        else if(data.priority ===2){
-          this.selectedPriority = this.priorities[1];
-          console.log("Major");
-        }
-        else if (data.priority === 3){
-          this.selectedPriority = this.priorities[2];
-          console.log("Critical");
-        }
-        else {
-          this.selectedPriority = this.priorities[2];
-          console.log("Priority > 3");
-          console.log(data.priority);
-        }
-        this.bug = data;
-        //console.log(data.comments);
+      // Cast priority from number to the 3 available options
+      this.selectedPriority = this.priorityToString(data.priority);
+      //get data
+      this.bug = data;
+
       });
        
     }
   }
 
-  submitForm(data){ // add a new bug
-
-    // string to number
-    if(data.priority === "Minor"){
-      data.priority = 1;
-    }else if( data.priority === "Major"){
-      data.priority = 2;
-    }else{ // it is Critical
-      data.priority = 3;
+  priorityToString(priority: number): string{
+    //Cast priority
+    if(priority === 1){ 
+      console.log("Minor");
+      return this.priorities[0];
+      
     }
+    else if(priority ===2){
+      console.log("Major");
+      return this.priorities[1];
+      
+    }
+    else if (priority === 3){
+      console.log("Critical");
+      return this.priorities[2];
+    }
+    else {
+      console.log("Priority > 3");
+      console.log(priority);
+      return this.priorities[2];
+
+    }
+  }
+
+  priorityToNumber(priority: string): number{
+        // string to number
+        if(priority === "Minor"){
+          return 1;
+        }else if( priority === "Major"){
+          return 2;
+        }else{ // it is Critical
+          return 3;
+        }
+ 
+  }
+
+  submitForm(){ // add or edit a bug
+
+    // set the right priority
+    this.bug.priority = this.priorityToNumber(this.selectedPriority);
 
     // POST A NEW BUG
     if(this.mode === "add"){
-      this._addEditBugsService.postBug(data).subscribe();
+      console.log(this.bug);
+      this._addEditBugsService.postBug(this.bug).subscribe();
+
+      // success notification
+      this.hideAddNotification = false;
+      this.removeAddNotification = false;
+
+      //redirect to home
+      setTimeout(()=> {
+        this.removeAddNotification = true; // palio flag
+        this._next_route.navigate(['']);
+     } ,5000);
     }
     else{ // UPDATE AN EXISTING BUG
 
       //get the id 
       let id = this._route.snapshot.params.id;
-      let newData;
-      if(this.bug.reporter != 'QA'){
-        newData = {
-          title: data.title,
-          description: data.description,
-          priority: data.priority,
-          reporter: data.reporter,
-          status: data.status,
-          comments:[...this.bug.comments,{reporter: data.commentReporter, description: data.commentDescription}]
-        };
-        console.log(newData);
+    
+      // comment validation
+      if(this.bug.reporter != 'QA' && this.addedComment.description.trim() != ''  && this.addedComment.reporter.trim() != ''
+      && this.addedComment.description.trim() != null && this.addedComment.reporter.trim() != null){
         
+        // push new comment since it's not blank
+        this.bug.comments = [...this.bug.comments, {...this.addedComment}];
       }
-      this._addEditBugsService.putBug(id,newData).subscribe();
+      console.log(this.bug);
+      this._addEditBugsService.putBug(id,this.bug).subscribe();
+      this.editPostFlag = true;
+
+      setTimeout(()=> {
+        this.editPostFlag = false;
+        window.location.reload();
+        //this._next_route.navigate(['edit/'+this._route.snapshot.params.id]);
+     } ,5000);
+
     }
-    this._next_route.navigate(['']);
+    //window.location.reload();
+    //this._next_route.navigate(['edit/'+this._route.snapshot.params.id]);
+    //this._next_route.navigate(['']);
   }
 
+  // hides add notification
+  hideNot(){
+    this.hideAddNotification = true;
+   setTimeout(()=> {
+     this.removeAddNotification = true;
+     //this._next_route.navigate(['']);
+  } ,2000);
+  }
 
 }
