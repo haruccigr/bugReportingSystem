@@ -23,11 +23,41 @@ export class BugsListService {
    * 
    */
  
-  getBugsList(sortBy: SortBy): Observable<Bugs[]> {
+  getBugsList(sortBy: SortBy, page: number): Observable<Bugs[]> {
+    console.log("getBugsList");
     if (sortBy.order === sortType.default) {
-      return this.http.get<Bugs[]>(this.get_endpoint);
+      
+      return this.http.get<Bugs[]>(`${this.get_endpoint}/?page=${page}`);
     }
-    return this.http.get<Bugs[]>(`${this.get_endpoint}/?sort=${sortBy.value},${sortBy.order}`);
+    return this.http.get<Bugs[]>(`${this.get_endpoint}/?sort=${sortBy.value},${sortBy.order}&page=${page}`);
   }
 
+  searchBugsList(sortBy: SortBy, page: number, title:string, priority:string, reporter:string, status:string){
+
+    let path = `${this.get_endpoint}?page=${page}`;
+
+    // build the path
+    if(sortBy.order != sortType.default){
+      path = `${path}&sort=${sortBy.value},${sortBy.order}`;
+    }
+    
+    if(title.trim() != ''){
+      path = `${path}&title=${title}`;
+    }
+
+    if(priority.trim() != ''){
+      path = `${path}&priority=${priority}`;
+    }
+
+    if(reporter.trim() != ''){
+      path = `${path}&reporter=${reporter}`;
+    }
+
+    if(status.trim() != ''){
+      path = `${path}&status=${status}`;
+    }
+    console.log("SearchBugsList");
+    console.log(path);
+    return this.http.get<Bugs[]>(path);
+  }
 }

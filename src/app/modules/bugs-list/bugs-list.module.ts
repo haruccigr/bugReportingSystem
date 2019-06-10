@@ -6,10 +6,11 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
-  declarations: [BugsListComponent, AddEditBugsComponent, HeaderComponent, PageNotFoundComponent],
+  declarations: [BugsListComponent, AddEditBugsComponent, HeaderComponent, PageNotFoundComponent, FooterComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -18,7 +19,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   exports:[
     BugsListComponent,
     AddEditBugsComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ]
 })
 export class BugsListModule { }

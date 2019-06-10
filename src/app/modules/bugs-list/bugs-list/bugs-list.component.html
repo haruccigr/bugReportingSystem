@@ -13,17 +13,26 @@
 
     <!-- Content here -->
     
-    <button type="button" [routerLink]="'add'" class="btn btn-success "><i class="fa fa-plus-circle fa-2x"></i>  Add a bug</button><br><br>
-
+    <button type="button" [routerLink]="'add'" class="btn btn-success"><i class="fa fa-plus-circle fa-2x"></i>  Add a bug</button><br><br>
+    <div class="row">
+    <form #searchForm="ngForm" (submit)="search()">
+        <input [(ngModel)] = "titleInput" type="text" placeholder="enter title" name="titleInput" minlength="1">
+        <input [(ngModel)] = "priorityInput" type="text" placeholder="enter priority" name="priorityInput" minlength="1">
+        <input [(ngModel)] = "reporterInput" type="text" placeholder="enter reporter" name="reporterInput" minlength="1">
+        <input [(ngModel)] = "statusInput" type="text" placeholder="enter status" name="statusInput" minlength="1">
+        <button class="btn btn-success" type="submit">Search</button> 
+    </form>
+    <button type="button" class="btn btn-success" (click)=resetSearch()>Clear</button>
+</div>
     <div class="row" style="padding:10px;margin:0px;background-color:rgb(238, 238, 238);border-radius: 25px;">
         <table class="table table-hover ">
-            <thead class="thead-dark" >
+            <thead class="thead-dark">
                 <tr>
-                    <th id="title" scope="col" (click)="sort($event)">Title <i class="fa fa-sort"></i></th>
-                    <th id="priority" scope="col" (click)="sort($event)">Priority <i class="fa fa-sort"></i></th>
-                    <th id="reporter" scope="col" (click)="sort($event)">Reporter <i class="fa fa-sort"></i></th>
-                    <th id="createdAt" scope="col" (click)="sort($event)">Date Created <i class="fa fa-sort"></i></th>
-                    <th id="status" scope="col" (click)="sort($event)">Status <i class="fa fa-sort"></i></th>
+                    <th id="title" scope="col" (click)="sort('title')">Title <i class="fa fa-sort"></i></th>
+                    <th id="priority" scope="col" (click)="sort('priority')">Priority <i class="fa fa-sort"></i></th>
+                    <th id="reporter" scope="col" (click)="sort('reporter')">Reporter <i class="fa fa-sort"></i></th>
+                    <th id="createdAt" scope="col" (click)="sort('createdAt')">Date Created <i class="fa fa-sort"></i></th>
+                    <th id="status" scope="col" (click)="sort('status')">Status <i class="fa fa-sort"></i></th>
                     <th></th>
                 </tr>
             </thead>
@@ -40,4 +49,9 @@
             </tbody>
         </table>
     </div>
+
+    <!-- PAGINATION -->
+    <button type="button" class="btn btn-primary" (click)="navigate('previous')">Previous</button>
+    <button type="button" class="btn btn-primary" (click)="navigate('next')">Next</button>
+
 </div>

@@ -13,16 +13,22 @@ export class BugsListComponent implements OnInit {
 
   bugsList: Bugs[];
   sortBy: SortBy;
+  currentPage: number;
+  titleInput:string = "";
+  priorityInput:string = "";
+  reporterInput:string = "";
+  statusInput:string = "";
+  searchFlag:boolean = false;
   
   constructor(private bugsListService: BugsListService) { }
 
   ngOnInit() {
-
+    this.currentPage =0;
     // init sortBy
     this.sortBy = {value: "",order: sortType.default};
 
     //get table data
-    this.bugsListService.getBugsList(this.sortBy).subscribe( data => this.bugsList = data);
+    this.bugsListService.getBugsList(this.sortBy, this.currentPage).subscribe( data => this.bugsList = data);
     
   }
 
@@ -70,15 +76,89 @@ export class BugsListComponent implements OnInit {
       }
       default: {
         console.log("SWITCH ERROR");
+        console.log(event.target.id);
       }
     }
+    if(!this.searchFlag){
+      this.bugsListService.getBugsList(this.sortBy, this.currentPage).subscribe( data => this.bugsList = data);
+    }else{
+      this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(data =>{
+        //console.log("if navigate");
+        this.bugsList = data;
+      });
+    }
+ 
+  }
+
+  navigate(action: string): void{
+    //console.log("navigate");
     
-    this.bugsListService.getBugsList(this.sortBy).subscribe( data => this.bugsList = data);
+    if(action === "next"){
+      if(!this.searchFlag){
+      
+        this.bugsListService.getBugsList(this.sortBy,this.currentPage+1).subscribe(data =>{
+          // console.log(data);
+           if(data.length){
+             //console.log("if navigate");
+             this.bugsList = data;
+             this.currentPage++;
+           }
+         });
+      }
+      else{
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage+1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(data =>{
+          // console.log(data);
+           if(data.length){
+             //console.log("if navigate");
+             this.bugsList = data;
+             this.currentPage++;
+           }
+         });
+      }
+
+
+
+    }else if(action === "previous" && this.currentPage){
+      //console.log("PREVIOUS");
+      if(!this.searchFlag){
+        this.bugsListService.getBugsList(this.sortBy,this.currentPage-1).subscribe(data =>{
+          // console.log(data);
+           if(data.length){
+             //console.log("if navigate");
+             this.bugsList = data;
+             this.currentPage--;
+           }
+         });
+      }
+      else{
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage-1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(data =>{
+          // console.log(data);
+           if(data.length){
+             //console.log("if navigate");
+             this.bugsList = data;
+             this.currentPage--;
+           }
+         });
+      }
+    }
   }
-/*
-  edit(id){
-    console.log(id);
-    this._addEditModeService.addEditMode = "edit";
+
+  search(): void{
+    this.searchFlag= true;
+    console.log("SEARCH");
+    this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(data =>{
+      //console.log(data);
+        console.log("SUBSRCIBE");
+        this.bugsList = data;
+    });
   }
-*/
+
+  resetSearch(): void{
+    this.titleInput = "";
+    this.priorityInput = "";
+    this.reporterInput = "";
+    this.statusInput = "";
+    this.searchFlag = false;
+  }
+
 }
