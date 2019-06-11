@@ -46,8 +46,7 @@
                   name="title"
                   ngModel
                   required
-                  minlength="4"
-                  >
+                  minlength="4">
         </div>
 
         <div class="form-group">
@@ -85,7 +84,7 @@
             <option [ngValue]="null">Select</option>
             <option *ngFor="let item of reporter" [ngValue] = "item">{{item}}</option>
           </select>
-          <small *ngIf="bug.reporter=='QA'" class="form-text text-muted">A QA cannot post a comment.</small>
+          <small *ngIf="bug.reporter=='QA' && mode==='edit'" class="form-text text-muted">A QA cannot post a comment.</small>
         </div>
 
         <div class="form-group">
@@ -114,7 +113,6 @@
               <input  
                       type="text"
                       class="form-control"
-                      placeholder="Enter the name of the reporter"
                       [(ngModel)]="addedComment.reporter"
                       name="commentReporter"
                       minlength="3"
@@ -171,16 +169,15 @@
       <br>
       <div class="formTitle"><h4>Current Comments</h4></div>
       <br><br>
-      <div *ngFor="let item of bug.comments" id="comments">
-        <label><strong> {{item.reporter}} </strong> wrote:</label>
-        <hr style="margin-top:0px;">
+      <fieldset *ngFor="let item of bug.comments;let index=index" id="comments">
+        <legend>#{{index+1}}</legend>
+        <label><h4 style="display: inline;"> {{item.reporter}} </h4> said:</label>
+        <hr>
         <span>
           {{item.description}}
         </span>
 
-
-
-      </div>
+      </fieldset>
     </div>
     <div class="col-2"></div>
   </div>

@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
  toggleDarkMode():void{
    let color;
   if(!this.darkMode){
-    color = 'rgb(86,61,124)';
+    color = '#303030';
     this.darkMode = true;
   }
   else{
@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
     this.darkMode = false;
   }
   this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = color;
+  //window.document.body.style.backgroundColor =color;
  }
 }
 

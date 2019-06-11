@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Bugs, sortType, SortBy } from './bugs.model';
 
@@ -23,17 +23,17 @@ export class BugsListService {
    * 
    */
  
-  getBugsList(sortBy: SortBy, page: number): Observable<Bugs[]> {
+  getBugsList(sortBy: SortBy, page: number): Observable<HttpResponse<Bugs[]>> {
     console.log("getBugsList");
     if (sortBy.order === sortType.default) {
       
-      return this.http.get<Bugs[]>(`${this.get_endpoint}/?page=${page}`);
+      return this.http.get<Bugs[]>(`${this.get_endpoint}/?page=${page}`,{observe:'response'});
     }
-    return this.http.get<Bugs[]>(`${this.get_endpoint}/?sort=${sortBy.value},${sortBy.order}&page=${page}`);
+    return this.http.get<Bugs[]>(`${this.get_endpoint}/?sort=${sortBy.value},${sortBy.order}&page=${page}`,{observe:'response'});
   }
 
-  searchBugsList(sortBy: SortBy, page: number, title:string, priority:string, reporter:string, status:string){
-
+  searchBugsList(sortBy: SortBy, page: number, title:string, priority:string, reporter:string, status:string): Observable<HttpResponse<Bugs[]>>{
+    page = 0;       // force the search for every item in the table
     let path = `${this.get_endpoint}?page=${page}`;
 
     // build the path
@@ -58,6 +58,6 @@ export class BugsListService {
     }
     console.log("SearchBugsList");
     console.log(path);
-    return this.http.get<Bugs[]>(path);
+    return this.http.get<Bugs[]>(path,{observe:'response'});
   }
 }

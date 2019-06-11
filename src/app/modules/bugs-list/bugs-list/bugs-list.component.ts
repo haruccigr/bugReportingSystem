@@ -14,21 +14,32 @@ export class BugsListComponent implements OnInit {
   bugsList: Bugs[];
   sortBy: SortBy;
   currentPage: number;
-  titleInput:string = "";
-  priorityInput:string = "";
-  reporterInput:string = "";
-  statusInput:string = "";
-  searchFlag:boolean = false;
+  titleInput: string;
+  priorityInput: string ;
+  reporterInput: string;
+  statusInput: string;
+  searchFlag: boolean;
+  totalPages: string;
   
   constructor(private bugsListService: BugsListService) { }
 
   ngOnInit() {
-    this.currentPage =0;
-    // init sortBy
+
+    // init properties
+    this.currentPage = 0;
+    this.titleInput = "";
+    this.priorityInput = "";
+    this.reporterInput = "";
+    this.statusInput = "";
+    this.searchFlag = false;
     this.sortBy = {value: "",order: sortType.default};
 
     //get table data
-    this.bugsListService.getBugsList(this.sortBy, this.currentPage).subscribe( data => this.bugsList = data);
+    this.bugsListService.getBugsList(this.sortBy, this.currentPage)
+    .subscribe( resp => {
+      this.bugsList = resp.body;
+      this.totalPages = resp.headers.get('Totalpages');
+    });
     
   }
 
@@ -42,7 +53,9 @@ export class BugsListComponent implements OnInit {
    * Convension: By default the first sort will be descending.
    */
 
-  sort(event): void{
+  sort(val: string): void{
+
+    this.sortBy.value = val;
 
     // ckeck sortBy status
     if(this.sortBy.order === sortType.default || this.sortBy.order === sortType.asc){
@@ -52,66 +65,44 @@ export class BugsListComponent implements OnInit {
       this.sortBy.order = sortType.asc;
     }
 
-    // check the value by which the sort will take place
-    switch(event.target.id){
-      case "title":{
-        this.sortBy.value = "title";
-        break;
-      }
-      case "priority":{
-        this.sortBy.value = "priority";
-        break;
-      }
-      case "reporter":{
-        this.sortBy.value = "reporter";
-        break;
-      }
-      case "createdAt":{
-        this.sortBy.value = "createdAt";
-        break;
-      }
-      case "status":{
-        this.sortBy.value = "status";
-        break;
-      }
-      default: {
-        console.log("SWITCH ERROR");
-        console.log(event.target.id);
-      }
-    }
+    // check if the user makes a search
+   
     if(!this.searchFlag){
-      this.bugsListService.getBugsList(this.sortBy, this.currentPage).subscribe( data => this.bugsList = data);
+      this.bugsListService.getBugsList(this.sortBy, this.currentPage)
+      .subscribe( resp => {      
+        this.bugsList = resp.body;
+        this.totalPages = resp.headers.get('Totalpages');});
     }else{
-      this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(data =>{
-        //console.log("if navigate");
-        this.bugsList = data;
+      this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp =>{
+        this.currentPage = 0;       // Must display the first page after a search
+        this.bugsList = resp.body;
+        this.totalPages = resp.headers.get('Totalpages');
       });
     }
  
   }
 
   navigate(action: string): void{
-    //console.log("navigate");
     
     if(action === "next"){
       if(!this.searchFlag){
       
-        this.bugsListService.getBugsList(this.sortBy,this.currentPage+1).subscribe(data =>{
-          // console.log(data);
-           if(data.length){
-             //console.log("if navigate");
-             this.bugsList = data;
+        this.bugsListService.getBugsList(this.sortBy,this.currentPage+1).subscribe(resp =>{
+           if(resp.body.length){
+             this.bugsList = resp.body;
+             this.totalPages = resp.headers.get('Totalpages');
              this.currentPage++;
            }
          });
       }
       else{
-        this.bugsListService.searchBugsList(this.sortBy, this.currentPage+1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(data =>{
-          // console.log(data);
-           if(data.length){
-             //console.log("if navigate");
-             this.bugsList = data;
-             this.currentPage++;
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage+1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
+        .subscribe(resp =>{
+           if(resp.body.length){
+            this.currentPage = 0;     // Must display the first page after a search
+            this.bugsList = resp.body;
+            this.totalPages = resp.headers.get('Totalpages');
+            this.currentPage++;
            }
          });
       }
@@ -119,24 +110,24 @@ export class BugsListComponent implements OnInit {
 
 
     }else if(action === "previous" && this.currentPage){
-      //console.log("PREVIOUS");
+
       if(!this.searchFlag){
-        this.bugsListService.getBugsList(this.sortBy,this.currentPage-1).subscribe(data =>{
-          // console.log(data);
-           if(data.length){
-             //console.log("if navigate");
-             this.bugsList = data;
+        this.bugsListService.getBugsList(this.sortBy,this.currentPage-1).subscribe(resp =>{
+           if(resp.body.length){
+            this.bugsList = resp.body;
+            this.totalPages = resp.headers.get('Totalpages');
              this.currentPage--;
            }
          });
       }
       else{
-        this.bugsListService.searchBugsList(this.sortBy, this.currentPage-1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(data =>{
-          // console.log(data);
-           if(data.length){
-             //console.log("if navigate");
-             this.bugsList = data;
-             this.currentPage--;
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage-1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
+        .subscribe( resp =>{
+           if(resp.body.length){
+            this.currentPage = 0;       // Must display the first page after a search
+            this.bugsList = resp.body;
+            this.totalPages = resp.headers.get('Totalpages');
+            this.currentPage--;
            }
          });
       }
@@ -145,11 +136,12 @@ export class BugsListComponent implements OnInit {
 
   search(): void{
     this.searchFlag= true;
-    console.log("SEARCH");
-    this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(data =>{
-      //console.log(data);
-        console.log("SUBSRCIBE");
-        this.bugsList = data;
+ 
+    this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
+    .subscribe( resp =>{
+      this.currentPage = 0; // Must display the first page after a search
+      this.bugsList = resp.body;
+      this.totalPages = resp.headers.get('Totalpages');
     });
   }
 
