@@ -28,9 +28,9 @@ export class BugsListComponent implements OnInit {
     // init properties
     this.currentPage = 0;
     this.titleInput = "";
-    this.priorityInput = "";
-    this.reporterInput = "";
-    this.statusInput = "";
+    this.priorityInput = null;
+    this.reporterInput = null;
+    this.statusInput = null;
     this.searchFlag = false;
     this.sortBy = {value: "",order: sortType.default};
 
@@ -74,7 +74,7 @@ export class BugsListComponent implements OnInit {
         this.totalPages = resp.headers.get('Totalpages');});
     }else{
       this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp =>{
-        this.currentPage = 0;       // Must display the first page after a search
+        //this.currentPage = 0;       // Must display the first page after a search
         this.bugsList = resp.body;
         this.totalPages = resp.headers.get('Totalpages');
       });
@@ -83,7 +83,7 @@ export class BugsListComponent implements OnInit {
   }
 
   navigate(action: string): void{
-    
+    console.log("KLISI NAVIGATE"+this.currentPage);
     if(action === "next"){
       if(!this.searchFlag){
       
@@ -98,8 +98,9 @@ export class BugsListComponent implements OnInit {
       else{
         this.bugsListService.searchBugsList(this.sortBy, this.currentPage+1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
         .subscribe(resp =>{
+          console.log("KLISI SEARCH"+this.currentPage);
            if(resp.body.length){
-            this.currentPage = 0;     // Must display the first page after a search
+            //this.currentPage = 0;     // Must display the first page after a search
             this.bugsList = resp.body;
             this.totalPages = resp.headers.get('Totalpages');
             this.currentPage++;
@@ -124,7 +125,7 @@ export class BugsListComponent implements OnInit {
         this.bugsListService.searchBugsList(this.sortBy, this.currentPage-1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
         .subscribe( resp =>{
            if(resp.body.length){
-            this.currentPage = 0;       // Must display the first page after a search
+            //this.currentPage = 0;       // Must display the first page after a search
             this.bugsList = resp.body;
             this.totalPages = resp.headers.get('Totalpages');
             this.currentPage--;
@@ -136,10 +137,10 @@ export class BugsListComponent implements OnInit {
 
   search(): void{
     this.searchFlag= true;
- 
+    this.currentPage = 0; // Must display the first page after a search
     this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
     .subscribe( resp =>{
-      this.currentPage = 0; // Must display the first page after a search
+      
       this.bugsList = resp.body;
       this.totalPages = resp.headers.get('Totalpages');
     });
@@ -147,10 +148,39 @@ export class BugsListComponent implements OnInit {
 
   resetSearch(): void{
     this.titleInput = "";
-    this.priorityInput = "";
-    this.reporterInput = "";
-    this.statusInput = "";
+    this.priorityInput = null;
+    this.reporterInput = null;
+    this.statusInput = null;
     this.searchFlag = false;
+  }
+
+  deleteBugs(event){
+    //console.log("mpampas"+event);
+
+    // DELETE
+    this.bugsListService.deleteById(event).subscribe( ()=> {
+
+      //console.log("Done");
+
+    //  GET THE NEW LIST
+      if(!this.searchFlag){
+        this.bugsListService.getBugsList(this.sortBy, this.currentPage)
+        .subscribe( resp => {  
+          //console.log("PRWTO");   
+          this.bugsList = resp.body;
+          //console.log(resp.body);
+          this.totalPages = resp.headers.get('Totalpages');});
+      }else{
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp =>{
+          //this.currentPage = 0;       // Must display the first page after a search
+          //console.log("deytero");
+          this.bugsList = resp.body;
+          this.totalPages = resp.headers.get('Totalpages');
+        });
+      }
+    });
+    
+
   }
 
 }

@@ -157,4 +157,19 @@ export class AddEditBugsComponent implements OnInit {
   } ,2000);
   }
 
+
+  resetForm():void{
+    this.bug={ title: '',
+              description: '',
+              priority: null,
+              reporter: null,
+              status: null,
+              createdAt: new Date(),
+              id:'',
+              comments: []
+            };
+
+  this.addedComment = {reporter: '',description: ''};
+
+  }
 }

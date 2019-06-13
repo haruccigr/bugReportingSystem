@@ -7,10 +7,11 @@ import {FormsModule} from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
+import { DeleteBugsComponent } from './delete-bugs/delete-bugs.component';
 
 
 @NgModule({
-  declarations: [BugsListComponent, AddEditBugsComponent, HeaderComponent, PageNotFoundComponent, FooterComponent],
+  declarations: [BugsListComponent, AddEditBugsComponent, HeaderComponent, PageNotFoundComponent, FooterComponent, DeleteBugsComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -20,7 +21,8 @@ import { FooterComponent } from './footer/footer.component';
     BugsListComponent,
     AddEditBugsComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    DeleteBugsComponent 
   ]
 })
 export class BugsListModule { }

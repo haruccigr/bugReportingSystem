@@ -33,7 +33,7 @@ export class BugsListService {
   }
 
   searchBugsList(sortBy: SortBy, page: number, title:string, priority:string, reporter:string, status:string): Observable<HttpResponse<Bugs[]>>{
-    page = 0;       // force the search for every item in the table
+    //page = 0;       // force the search for every item in the table
     let path = `${this.get_endpoint}?page=${page}`;
 
     // build the path
@@ -45,19 +45,23 @@ export class BugsListService {
       path = `${path}&title=${title}`;
     }
 
-    if(priority.trim() != ''){
+    if(priority != null){
       path = `${path}&priority=${priority}`;
     }
 
-    if(reporter.trim() != ''){
+    if(reporter != null){
       path = `${path}&reporter=${reporter}`;
     }
 
-    if(status.trim() != ''){
+    if(status != null){
       path = `${path}&status=${status}`;
     }
     console.log("SearchBugsList");
     console.log(path);
     return this.http.get<Bugs[]>(path,{observe:'response'});
+  }
+
+  deleteById(id:string): Observable<{}>{
+    return this.http.delete(`${this.get_endpoint}/${id}`);
   }
 }

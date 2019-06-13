@@ -22,9 +22,24 @@
                     <span id="searchBarLeft" class="input-group-text" ><strong>Advanced Search:</strong></span>
                 </div>
                 <input [(ngModel)] = "titleInput" type="text" class="form-control" placeholder="Title" name="titleInput" minlength="1" ngModel>
-                <input [(ngModel)] = "priorityInput" type="text" class="form-control" placeholder="Priority" name="priorityInput" minlength="1" ngModel>
-                <input [(ngModel)] = "reporterInput" type="text" class="form-control" placeholder="Reporter" name="reporterInput" minlength="1">
-                <input [(ngModel)] = "statusInput" type="text" class="form-control"placeholder="Status" name="statusInput" minlength="1">
+                <select [(ngModel)] = "priorityInput" type="text" class="custom-select" placeholder="Priority" name="priorityInput" minlength="1" ngModel>
+                    <option [ngValue]="null">Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+                <select [(ngModel)] = "reporterInput" type="text" class="custom-select" placeholder="Reporter" name="reporterInput" minlength="1">
+                    <option [ngValue]="null">Select</option>
+                    <option value="QA">QA</option>
+                    <option value="PO">PO</option>
+                    <option value="DEV">DEV</option>
+                </select>
+                <select [(ngModel)] = "statusInput" type="text" class="custom-select"placeholder="Status" name="statusInput" minlength="1">
+                    <option [ngValue]="null">Select</option>
+                    <option value="Ready for test">Ready for test</option>
+                    <option value="Done">Done</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" type="submit">Search</button> 
                     <button id="searchBarRight" type="button" class="btn btn-outline-success" (click)=resetSearch()>Clear</button>
@@ -41,7 +56,7 @@
                     <th id="reporter" scope="col" (click)="sort('reporter')">Reporter <i class="fa fa-sort"></i></th>
                     <th id="createdAt" scope="col" (click)="sort('createdAt')">Date Created <i class="fa fa-sort"></i></th>
                     <th id="status" scope="col" (click)="sort('status')">Status <i class="fa fa-sort"></i></th>
-                    <th></th>
+                    <th> Edit / Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +67,7 @@
                     <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
                     <td>{{item.status}}</td>
                     <td> <button type="button"  [routerLink]="['edit',item.id]"   class="btn btn-secondary editButton"> <i class="fa fa-edit"></i> Edit</button>
+                        <bugReporting-delete-bugs (clicked)="deleteBugs($event)" [id]="item.id"></bugReporting-delete-bugs>
                     </td>
                 </tr>
             </tbody>
