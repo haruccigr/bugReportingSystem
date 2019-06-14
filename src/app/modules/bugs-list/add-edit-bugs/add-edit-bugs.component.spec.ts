@@ -42,27 +42,47 @@ describe('AddEditBugsComponent', () => {
 
 
   it('When the minimum required fields are given, the submit button is enabled', () => {
-    /*
-    component.bug.title = 'testt';         // 4 minimum
-    component.bug.description = 'testyyy';   // 5 minimum
-   // component.bug.priority = 1;
-    component.bug.reporter = 'QA';
-    component.bug.status = 'Done';
-*/
-    fixture.debugElement.query(By.css("#title")).nativeElement.value = 'testt';
-    fixture.debugElement.query(By.css("#description")).nativeElement.value = 'testtyy';
-   // fixture.debugElement.query(By.css("#priority")).nativeElement.value = 'testt';
-   // fixture.debugElement.query(By.css("#reporter")).nativeElement.value = 'testt';
-    //fixture.debugElement.query(By.css("#status")).nativeElement.value = 'testt';
 
-    component.addedComment = {description:'', reporter: ''};
+
+    //fixture.detectChanges();
+
+ 
 
     fixture.whenStable().then( () =>{
       
+      // define variables for every required HTML element in the form
+      const titleInput = fixture.debugElement.query(By.css("#title")).nativeElement;
+      const descriptionInput = fixture.debugElement.query(By.css("#description")).nativeElement;
+      const prioritySelect = fixture.debugElement.query(By.css("#priority")).nativeElement;
+      const reporterSelect = fixture.debugElement.query(By.css("#reporter")).nativeElement;
+      const statusSelect = fixture.debugElement.query(By.css("#status")).nativeElement;
+
+      // set the values for the input fields
+      titleInput.value = 'tessssttt';
+      descriptionInput.value = 'testt';
+      titleInput.dispatchEvent(new Event('input'));
+      descriptionInput.dispatchEvent(new Event('input'));
+
+
+      // set the values for select options
+      // REMEMBER [0] is null!!
+      prioritySelect.value = prioritySelect.options[2].value; // selected Major priority
+      reporterSelect.value = reporterSelect.options[2].value; // PO
+      statusSelect.value = statusSelect.options[1].value;     // Done
+
+      // trigger change state
+      prioritySelect.dispatchEvent(new Event('change'));
+      reporterSelect.dispatchEvent(new Event('change'));
+      statusSelect.dispatchEvent(new Event('change'));
+
+      // detect all changes happened to the form
       fixture.detectChanges();
+
+      // verify button state
       const buttonState = fixture.debugElement.query(By.css("button[type=submit]")).nativeElement.disabled;
-      console.log(buttonState)
-      expect(buttonState).toEqual(true);
+      console.log("button is: "+buttonState);
+    
+      expect(buttonState).toEqual(false);
     });
 
    });

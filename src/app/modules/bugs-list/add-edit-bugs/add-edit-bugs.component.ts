@@ -28,7 +28,9 @@ export class AddEditBugsComponent implements OnInit {
   hideAddNotification = true;   // add success notification
   removeAddNotification = true;
 
-  editPostFlag = false;
+  editPostFlag = false;         // a flag for an Edit submit. When true a notification that an
+                                // an edit occured appears. Also used to disable the button after
+                                // the edit to prevent duplicated entries
 
   priorities = ['Minor','Major','Critical'];
   reporter = ['QA','PO','DEV'];
@@ -122,7 +124,7 @@ export class AddEditBugsComponent implements OnInit {
     }
     else{ // UPDATE AN EXISTING BUG
 
-      //get the id 
+      // get the id 
       let id = this._route.snapshot.params.id;
     
       // comment validation
@@ -134,7 +136,9 @@ export class AddEditBugsComponent implements OnInit {
       }
       console.log(this.bug);
       this._addEditBugsService.putBug(id,this.bug).subscribe();
-      this.editPostFlag = true;
+
+      // set the flag for the Edit notification
+      this.editPostFlag = true;      
 
       setTimeout(()=> {
         this.editPostFlag = false;

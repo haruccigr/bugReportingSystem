@@ -157,7 +157,7 @@
       </div>
 
       <div class="wrap">
-        <button type="submit" [disabled]= "form.invalid || form.pristine" class="button">Submit</button>
+        <button type="submit" [disabled]= "form.invalid || form.pristine || editPostFlag" class="button">Submit</button>
       </div>
       <!--
         <button type="submit" [disabled]= "form.invalid || form.pristine" class="btn btn-primary">Submit</button>
