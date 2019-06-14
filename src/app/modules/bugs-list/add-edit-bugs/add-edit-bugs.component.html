@@ -40,6 +40,7 @@
           <label><b>Title</b><span style="color:red;">*</span></label>
           <input  #title = "ngModel"
                   type="text"
+                  id="title"
                   class="form-control"
                   placeholder="Enter the bug title.."
                   [(ngModel)]="bug.title"
@@ -53,6 +54,7 @@
           <label><b>Description</b><span style="color:red;">*</span></label>
           <textarea  #description = "ngModel"
                   type="text" 
+                  id="description"
                   class="form-control" 
                   placeholder="Enter the decscription of the bug.."
                   [(ngModel)]="bug.description"
@@ -66,6 +68,7 @@
         <div class="form-group">
           <label><b>Priority</b><span style="color:red;">*</span></label>
           <select class="form-control"
+                  id="priority"
                   name="priority"
                   [(ngModel)] = "selectedPriority"
                   required>
@@ -79,6 +82,7 @@
           <label><b>Reporter</b><span style="color:red;">*</span></label>
           <select class="form-control"
                   name="reporter"
+                  id="reporter"
                   [(ngModel)] = "bug.reporter"
                   required>
             <option [ngValue]="null">Select</option>
@@ -91,6 +95,7 @@
           <label><b>Status</b><span style="color:red;">*</span></label>
           <select class="form-control"
                   name="status"
+                  id="status"
                   [(ngModel)] = "bug.status"
                   required>
             <option [ngValue]="null">Select</option>

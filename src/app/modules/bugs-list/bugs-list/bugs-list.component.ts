@@ -160,22 +160,45 @@ export class BugsListComponent implements OnInit {
     // DELETE
     this.bugsListService.deleteById(event).subscribe( ()=> {
 
-      //console.log("Done");
+      
 
     //  GET THE NEW LIST
       if(!this.searchFlag){
         this.bugsListService.getBugsList(this.sortBy, this.currentPage)
         .subscribe( resp => {  
-          //console.log("PRWTO");   
-          this.bugsList = resp.body;
-          //console.log(resp.body);
-          this.totalPages = resp.headers.get('Totalpages');});
-      }else{
-        this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp =>{
-          //this.currentPage = 0;       // Must display the first page after a search
-          //console.log("deytero");
+    
           this.bugsList = resp.body;
           this.totalPages = resp.headers.get('Totalpages');
+
+          // check if the item deleted was on the last page
+          // if it's true we must go back a page, and load those bugs
+          if(this.currentPage.toString() == this.totalPages){ 
+            this.currentPage--;
+            this.bugsListService.getBugsList(this.sortBy, this.currentPage)
+             .subscribe( resp => {
+                this.bugsList = resp.body;
+                //this.totalPages = resp.headers.get('Totalpages');
+              });
+          }
+          
+        });
+      }else{
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp =>{
+
+          this.bugsList = resp.body;
+          this.totalPages = resp.headers.get('Totalpages');
+
+          // check if the item deleted was on the last page
+          // if it's true we must go back a page, and load those bugs
+          if(this.currentPage.toString() == this.totalPages){ 
+            this.currentPage--;
+            this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
+             .subscribe( resp => {
+                this.bugsList = resp.body;
+                //this.totalPages = resp.headers.get('Totalpages');
+              });
+          }
+
         });
       }
     });

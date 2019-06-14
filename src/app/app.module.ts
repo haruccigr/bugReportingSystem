@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { BugsListModule } from './modules/bugs-list/bugs-list.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { bugsListInterceptor } from './bugListInterceptor.service';
