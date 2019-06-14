@@ -9,6 +9,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 export class DeleteBugsComponent implements OnInit {
 
   @Input() id : string;
+  @Input() title : string;
   @Output() clicked: EventEmitter<string> = new EventEmitter();
   constructor() { }
 
@@ -18,7 +19,7 @@ export class DeleteBugsComponent implements OnInit {
 
   getTheId(): void{
     this.clicked.emit(this.id);
-    console.log("the id is:" + this.id);
+    //console.log("the id is:" + this.id);
   }
 
 }

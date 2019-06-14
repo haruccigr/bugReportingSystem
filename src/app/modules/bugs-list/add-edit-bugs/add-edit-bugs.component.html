@@ -5,6 +5,7 @@
 
   <div class="row">
     <div class="col-2"><br><br>
+      <!-- OLD FORM VALIDATION
       <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
   
         <div *ngIf="title.errors.required">
@@ -15,6 +16,7 @@
         </div>
   
       </div>
+
       <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
   
         <div *ngIf="description.errors.required">
@@ -25,11 +27,12 @@
         </div>
   
       </div>
-
+      -->
 
     </div>
     <div id="editForm" class="col-8" >
 
+      <!-- ADD/EDIT FORM STARTS HERE -->
       <form #form="ngForm" (submit)="submitForm()">
         <div class="formTitle">
           <h4 *ngIf="mode==='add'"> Add a new bug</h4>
@@ -43,11 +46,25 @@
                   id="title"
                   class="form-control"
                   placeholder="Enter the bug title.."
+                  autocomplete="off"
                   [(ngModel)]="bug.title"
                   name="title"
                   ngModel
                   required
                   minlength="4">
+        </div>
+
+        <!--Title validation-->
+        <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger alert-dismissible fade show" role="alert">
+          <div *ngIf="title.errors.required">
+            Title is required.
+          </div>
+          <div *ngIf="title.errors.minlength">
+            Title must be at least 4 characters long.
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
 
         <div class="form-group">
@@ -57,6 +74,7 @@
                   id="description"
                   class="form-control" 
                   placeholder="Enter the decscription of the bug.."
+                  autocomplete="off"
                   [(ngModel)]="bug.description"
                   name="description"
                   ngModel
@@ -64,6 +82,21 @@
                   minlength="5">
           </textarea>
         </div>
+
+        <!--Description validation-->
+        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger alert-dismissible fade show" role="alert">
+  
+          <div *ngIf="description.errors.required">
+            Description is required.
+          </div>
+          <div *ngIf="description.errors.minlength">
+            Description must be at least 5 characters long.
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
 
         <div class="form-group">
           <label><b>Priority</b><span style="color:red;">*</span></label>
@@ -170,7 +203,7 @@
   <div class="row">
     <div class="col-2"></div>
     <div *ngIf="bug.comments.length && mode === 'edit'" id="editForm" class="col-8">
-           <!-- Print comments -->
+           <!-- PRINT COMMENTS -->
       <br>
       <div class="formTitle"><h4>Current Comments</h4></div>
       <br><br>

@@ -11,10 +11,12 @@
             </div>
     </div>
 
-    <!-- Content here -->
+    <!-- add button -->
     
     <button id="addButton" type="button" [routerLink]="'add'" class="btn btn-success">Add a <i id="bugIcon" class="fa fa-bug fa-2x"></i></button>
   
+    <!-- Advanced search -->
+
     <div id="searchGroup" class="row">
         <form #searchForm="ngForm" (submit)="search()">
             <div class="input-group">
@@ -47,6 +49,17 @@
             </div>
         </form>
     </div>
+
+    <!-- DELETE NOTIFICATION -->
+    <div *ngIf="deleteNotification" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span>You have successfully deleted a bug.</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- Bugs table-->
+      
     <div id="bugsTable" class="table-responsive">
         <table class="table table-hover ">
             <thead class="thead-dark">
@@ -67,7 +80,7 @@
                     <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
                     <td>{{item.status}}</td>
                     <td> <button type="button"  [routerLink]="['edit',item.id]"   class="btn btn-secondary editButton"> <i class="fa fa-edit"></i> Edit</button>
-                        <bugReporting-delete-bugs (clicked)="deleteBugs($event)" [id]="item.id"></bugReporting-delete-bugs>
+                        <bugReporting-delete-bugs (clicked)="deleteBugs($event)" [id]="item.id" [title]="item.title"></bugReporting-delete-bugs>
                     </td>
                 </tr>
             </tbody>

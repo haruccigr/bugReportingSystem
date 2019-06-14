@@ -10,6 +10,7 @@ import { FooterComponent } from './footer/footer.component';
 import { DeleteBugsComponent } from './delete-bugs/delete-bugs.component';
 
 
+
 @NgModule({
   declarations: [BugsListComponent, AddEditBugsComponent, HeaderComponent, PageNotFoundComponent, FooterComponent, DeleteBugsComponent],
   imports: [
@@ -22,7 +23,7 @@ import { DeleteBugsComponent } from './delete-bugs/delete-bugs.component';
     AddEditBugsComponent,
     HeaderComponent,
     FooterComponent,
-    DeleteBugsComponent 
+    DeleteBugsComponent
   ]
 })
 export class BugsListModule { }

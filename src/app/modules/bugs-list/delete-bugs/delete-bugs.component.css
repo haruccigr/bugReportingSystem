@@ -1,18 +1,24 @@
-button{
+#deleteButton{
     margin-left: 7px;
 
     
 }
 
-button:hover{
+#deleteButton:hover{
     transform: translateY(-5px);
     border: 1px solid rgb(231, 99, 99);
     box-shadow: 0 0 10px rgb(224, 144, 144);
 }
 
-/* fix the responsive view */
+.editButton:hover{
+    transform: translateY(-5px);
+    border: 1px solid gray;
+    box-shadow: 0 0 10px rgb(243, 243, 243);
+}
+
+/* responsive view for the delete button */
 @media screen and (max-width: 900px) {
-    button{
+    #deleteButton{
         display: flex;
         flex-wrap: nowrap; 
     }
@@ -22,4 +28,4 @@ button:hover{
     i{
         margin-top:3px;
     }
-  }
+}

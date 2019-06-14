@@ -20,6 +20,8 @@ export class BugsListComponent implements OnInit {
   statusInput: string;
   searchFlag: boolean;
   totalPages: string;
+
+  deleteNotification: boolean;      // notification flag
   
   constructor(private bugsListService: BugsListService) { }
 
@@ -33,6 +35,7 @@ export class BugsListComponent implements OnInit {
     this.statusInput = null;
     this.searchFlag = false;
     this.sortBy = {value: "",order: sortType.default};
+    this.deleteNotification = false;
 
     //get table data
     this.bugsListService.getBugsList(this.sortBy, this.currentPage)
@@ -157,6 +160,9 @@ export class BugsListComponent implements OnInit {
   deleteBugs(event){
     //console.log("mpampas"+event);
 
+    // toggle delete notification
+    this.deleteNotification = true;
+    
     // DELETE
     this.bugsListService.deleteById(event).subscribe( ()=> {
 
@@ -203,6 +209,10 @@ export class BugsListComponent implements OnInit {
       }
     });
     
+    // after 5 seconds hide the delete Notification
+    setTimeout(()=> {
+      this.deleteNotification = false; 
+    } ,5000);
 
   }
 
