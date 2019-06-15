@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding:30px;background-color: #242582;box-shadow: 0px 0px 10px rgb(126, 126, 126);">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;padding:0px;box-shadow: 0px 0px 10px rgb(126, 126, 126);">
   <a class="navbar-brand" href="#">
       <img src="../../../../assets/bug_logo.png" height="30" alt="">
   </a>
@@ -8,8 +8,8 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav ml-auto">
-      <a class="nav-item nav-link" [class.active]="route==='home'" href="">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" [class.active]="route==='add'" href="/add">Add a bug</a>
+      <a class="nav-item nav-link" [class.active]="route==='home'" [routerLink]="''">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" [class.active]="route==='add'" [routerLink]="'/add'">Add a bug</a>
      <!-- <a class="nav-item nav-link" href="/about">About</a> -->
       <a class="nav-item nav-link" style="cursor: pointer;" (click)="toggleDarkMode()">Dark Mode <i class="fa fa-moon-o"></i></a>
     </div>

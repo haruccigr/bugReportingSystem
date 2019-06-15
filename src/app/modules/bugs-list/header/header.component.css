@@ -1,0 +1,12 @@
+.nav-item.nav-link{
+    padding:30px;
+    padding-left:20px;
+}
+
+.active{
+    border-bottom: 6px solid whitesmoke;
+}
+
+.navbar-brand{
+    padding-left:20px;
+}
