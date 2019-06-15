@@ -1,4 +1,3 @@
-
 <div class="container">
   <!-- Content here -->
 
@@ -30,7 +29,7 @@
       -->
 
     </div>
-    <div id="editForm" class="col-8" >
+    <div id="editForm" class="col-8">
 
       <!-- ADD/EDIT FORM STARTS HERE -->
       <form #form="ngForm" (submit)="submitForm()">
@@ -41,21 +40,13 @@
         <br><br>
         <div class="form-group">
           <label><b>Title</b><span style="color:red;">*</span></label>
-          <input  #title = "ngModel"
-                  type="text"
-                  id="title"
-                  class="form-control"
-                  placeholder="Enter the bug title.."
-                  autocomplete="off"
-                  [(ngModel)]="bug.title"
-                  name="title"
-                  ngModel
-                  required
-                  minlength="4">
+          <input #title="ngModel" type="text" id="title" class="form-control" placeholder="Enter the bug title.."
+            autocomplete="off" [(ngModel)]="bug.title" name="title" ngModel required minlength="4">
         </div>
 
         <!--Title validation-->
-        <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div *ngIf="title.invalid && (title.dirty || title.touched)"
+          class="alert alert-danger alert-dismissible fade show" role="alert">
           <div *ngIf="title.errors.required">
             Title is required.
           </div>
@@ -69,23 +60,16 @@
 
         <div class="form-group">
           <label><b>Description</b><span style="color:red;">*</span></label>
-          <textarea  #description = "ngModel"
-                  type="text" 
-                  id="description"
-                  class="form-control" 
-                  placeholder="Enter the decscription of the bug.."
-                  autocomplete="off"
-                  [(ngModel)]="bug.description"
-                  name="description"
-                  ngModel
-                  required
-                  minlength="5">
+          <textarea #description="ngModel" type="text" id="description" class="form-control"
+            placeholder="Enter the decscription of the bug.." autocomplete="off" [(ngModel)]="bug.description"
+            name="description" ngModel required minlength="5">
           </textarea>
         </div>
 
         <!--Description validation-->
-        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger alert-dismissible fade show" role="alert">
-  
+        <div *ngIf="description.invalid && (description.dirty || description.touched)"
+          class="alert alert-danger alert-dismissible fade show" role="alert">
+
           <div *ngIf="description.errors.required">
             Description is required.
           </div>
@@ -100,116 +84,104 @@
 
         <div class="form-group">
           <label><b>Priority</b><span style="color:red;">*</span></label>
-          <select class="form-control"
-                  id="priority"
-                  name="priority"
-                  [(ngModel)] = "selectedPriority"
-                  required>
+          <select class="form-control" id="priority" name="priority" [(ngModel)]="selectedPriority" required>
             <option [ngValue]="null">Select</option>
-            <option *ngFor="let item of priorities" [ngValue] = "item">{{item}}</option>
+            <option *ngFor="let item of priorities" [ngValue]="item">{{item}}</option>
 
           </select>
         </div>
 
         <div class="form-group">
           <label><b>Reporter</b><span style="color:red;">*</span></label>
-          <select class="form-control"
-                  name="reporter"
-                  id="reporter"
-                  [(ngModel)] = "bug.reporter"
-                  required>
+          <select class="form-control" name="reporter" id="reporter" [(ngModel)]="bug.reporter" required>
             <option [ngValue]="null">Select</option>
-            <option *ngFor="let item of reporter" [ngValue] = "item">{{item}}</option>
+            <option *ngFor="let item of reporter" [ngValue]="item">{{item}}</option>
           </select>
-          <small *ngIf="bug.reporter=='QA' && mode==='edit'" class="form-text text-muted">A QA cannot post a comment.</small>
+          <small *ngIf="bug.reporter=='QA' && mode==='edit'" class="form-text text-muted">A QA cannot post a
+            comment.</small>
         </div>
 
         <div class="form-group">
           <label><b>Status</b><span style="color:red;">*</span></label>
-          <select class="form-control"
-                  name="status"
-                  id="status"
-                  [(ngModel)] = "bug.status"
-                  required>
+          <select class="form-control" name="status" id="status" [(ngModel)]="bug.status" required>
             <option [ngValue]="null">Select</option>
-            <option *ngFor="let item of status" [ngValue] = "item">{{item}}</option>
+            <option *ngFor="let item of status" [ngValue]="item">{{item}}</option>
           </select>
         </div>
         <br>
         <small class="form-text text-muted"><i>* fields are required.</i></small>
-    
-         <!-- Show Add a comment -->
+
+        <!-- Show Add a comment -->
         <div *ngIf="mode === 'edit' && bug.reporter != 'QA' && bug.reporter != null">
           <br>
-          <div class="formTitle"><h4>Leave a comment (Optional)</h4></div>
-          
+          <div class="formTitle">
+            <h4>Leave a comment (Optional)</h4>
+          </div>
+
 
           <br>
           <br>
           <div class="form-group">
-              <label><b>Name of reporter</b></label>
-              <input  
-                      type="text"
-                      class="form-control"
-                      [(ngModel)]="addedComment.reporter"
-                      name="commentReporter"
-                      minlength="3"
-                      ngModel>
-              <small class="form-text text-muted">Minimum length 3 characters.</small>
+            <label><b>Name of reporter</b></label>
+            <input type="text" class="form-control" [(ngModel)]="addedComment.reporter" name="commentReporter"
+              minlength="3" ngModel>
+            <small class="form-text text-muted">Minimum length 3 characters.</small>
           </div>
           <br>
           <div class="form-group">
-              <label><b>Type a comment</b></label>
-              <textarea 
-                        class="form-control" 
-                        [(ngModel)]="addedComment.description"
-                        name="commentDescription"
-                        minlength="4"
-                        ngModel>
+            <label><b>Type a comment</b></label>
+            <textarea class="form-control" [(ngModel)]="addedComment.description" name="commentDescription"
+              minlength="4" ngModel>
               </textarea>
-              <small class="form-text text-muted">Minimum length 4 characters.</small>
+            <small class="form-text text-muted">Minimum length 4 characters.</small>
           </div>
 
         </div>
 
-         <!-- ADD POST NOTIFICATION -->
-        <div [class.hide]="hideAddNotification" [class.remove]="removeAddNotification" class="alert alert-success alert-dismissible fade show " role="alert">
+        <!-- ADD POST NOTIFICATION -->
+        <div [class.hide]="hideAddNotification" [class.remove]="removeAddNotification"
+          class="alert alert-success alert-dismissible fade show " role="alert">
           <strong>Success!</strong> You have successfully added a new bug. You will be redirected to Home Screen
           in 5 seconds!
           <button (click)="hideNot()" type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      
-      <!-- EDIT POST NOTIFICATION-->
-      <div [class.show]="editPostFlag" class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> Your changes have been saved. The page will automatically reload in 5 seconds.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
 
-      <div class="wrap">
-        <button type="submit" [disabled]= "form.invalid || form.pristine || editPostFlag" class="button">Submit</button>
-      </div>
-      <!--
+        <!-- EDIT POST NOTIFICATION-->
+        <div [class.show]="editPostFlag" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Success!</strong> Your changes have been saved. The page will automatically reload in 5 seconds.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="wrap">
+          <button type="submit" [disabled]="form.invalid || form.pristine || editPostFlag"
+            class="button">Submit</button>
+        </div>
+        <!--
         <button type="submit" [disabled]= "form.invalid || form.pristine" class="btn btn-primary">Submit</button>
       -->
       </form>
-  
+
     </div>
     <div class="col-2"></div>
   </div>
   <div class="row">
     <div class="col-2"></div>
     <div *ngIf="bug.comments.length && mode === 'edit'" id="editForm" class="col-8">
-           <!-- PRINT COMMENTS -->
+      <!-- PRINT COMMENTS -->
       <br>
-      <div class="formTitle"><h4>Current Comments</h4></div>
+      <div class="formTitle">
+        <h4>Current Comments</h4>
+      </div>
       <br><br>
       <fieldset *ngFor="let item of bug.comments;let index=index" id="comments">
         <legend>#{{index+1}}</legend>
-        <label><h4 style="display: inline;"> {{item.reporter}} </h4> said:</label>
+        <label>
+          <h4 style="display: inline;"> {{item.reporter}} </h4> said:
+        </label>
         <hr>
         <span>
           {{item.description}}

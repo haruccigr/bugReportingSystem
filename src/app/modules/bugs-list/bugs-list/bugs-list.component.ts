@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BugsListService} from '../bugs-list.service';
-import {Bugs,sortType,SortBy} from '../bugs.model';
+import { BugsListService } from '../bugs-list.service';
+import { Bugs, sortType, SortBy } from '../bugs.model';
 //import { AddEditModeService } from '../add-edit-mode.service';
 
 
@@ -15,14 +15,17 @@ export class BugsListComponent implements OnInit {
   sortBy: SortBy;
   currentPage: number;
   titleInput: string;
-  priorityInput: string ;
+  priorityInput: string;
   reporterInput: string;
   statusInput: string;
   searchFlag: boolean;
   totalPages: string;
 
+  deleteBugId: string;              // the ID of the bug to be deleted
+  deleteBugTitle: string;           // the title of the bug to be deleted
+
   deleteNotification: boolean;      // notification flag
-  
+
   constructor(private bugsListService: BugsListService) { }
 
   ngOnInit() {
@@ -34,21 +37,21 @@ export class BugsListComponent implements OnInit {
     this.reporterInput = null;
     this.statusInput = null;
     this.searchFlag = false;
-    this.sortBy = {value: "",order: sortType.default};
+    this.sortBy = { value: "", order: sortType.default };
     this.deleteNotification = false;
 
     //get table data
     this.bugsListService.getBugsList(this.sortBy, this.currentPage)
-    .subscribe( resp => {
-      this.bugsList = resp.body;
-      this.totalPages = resp.headers.get('Totalpages');
-    });
-    
+      .subscribe(resp => {
+        this.bugsList = resp.body;
+        this.totalPages = resp.headers.get('Totalpages');
+      });
+
   }
 
   /**
    * 
-   * @param event the click event that trigerred the function call
+   * @param val the table head value that trigerred the function call
    * 
    * @returns nothing; stores the bugs list fetched from the service
    * into the bugsList property
@@ -56,12 +59,12 @@ export class BugsListComponent implements OnInit {
    * Convension: By default the first sort will be descending.
    */
 
-  sort(val: string): void{
+  sort(val: string): void {
 
     this.sortBy.value = val;
 
     // ckeck sortBy status
-    if(this.sortBy.order === sortType.default || this.sortBy.order === sortType.asc){
+    if (this.sortBy.order === sortType.default || this.sortBy.order === sortType.asc) {
       this.sortBy.order = sortType.desc;
     }
     else { // it is desc, so change it to asc
@@ -69,87 +72,88 @@ export class BugsListComponent implements OnInit {
     }
 
     // check if the user makes a search
-   
-    if(!this.searchFlag){
+
+    if (!this.searchFlag) {
       this.bugsListService.getBugsList(this.sortBy, this.currentPage)
-      .subscribe( resp => {      
-        this.bugsList = resp.body;
-        this.totalPages = resp.headers.get('Totalpages');});
-    }else{
-      this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp =>{
+        .subscribe(resp => {
+          this.bugsList = resp.body;
+          this.totalPages = resp.headers.get('Totalpages');
+        });
+    } else {
+      this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp => {
         //this.currentPage = 0;       // Must display the first page after a search
         this.bugsList = resp.body;
         this.totalPages = resp.headers.get('Totalpages');
       });
     }
- 
+
   }
 
-  navigate(action: string): void{
-    console.log("KLISI NAVIGATE"+this.currentPage);
-    if(action === "next"){
-      if(!this.searchFlag){
-      
-        this.bugsListService.getBugsList(this.sortBy,this.currentPage+1).subscribe(resp =>{
-           if(resp.body.length){
-             this.bugsList = resp.body;
-             this.totalPages = resp.headers.get('Totalpages');
-             this.currentPage++;
-           }
-         });
-      }
-      else{
-        this.bugsListService.searchBugsList(this.sortBy, this.currentPage+1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
-        .subscribe(resp =>{
-          console.log("KLISI SEARCH"+this.currentPage);
-           if(resp.body.length){
-            //this.currentPage = 0;     // Must display the first page after a search
+  navigate(action: string): void {
+    console.log("KLISI NAVIGATE" + this.currentPage);
+    if (action === "next") {
+      if (!this.searchFlag) {
+
+        this.bugsListService.getBugsList(this.sortBy, this.currentPage + 1).subscribe(resp => {
+          if (resp.body.length) {
             this.bugsList = resp.body;
             this.totalPages = resp.headers.get('Totalpages');
             this.currentPage++;
-           }
-         });
+          }
+        });
+      }
+      else {
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage + 1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
+          .subscribe(resp => {
+            console.log("KLISI SEARCH" + this.currentPage);
+            if (resp.body.length) {
+              //this.currentPage = 0;     // Must display the first page after a search
+              this.bugsList = resp.body;
+              this.totalPages = resp.headers.get('Totalpages');
+              this.currentPage++;
+            }
+          });
       }
 
 
 
-    }else if(action === "previous" && this.currentPage){
+    } else if (action === "previous" && this.currentPage) {
 
-      if(!this.searchFlag){
-        this.bugsListService.getBugsList(this.sortBy,this.currentPage-1).subscribe(resp =>{
-           if(resp.body.length){
-            this.bugsList = resp.body;
-            this.totalPages = resp.headers.get('Totalpages');
-             this.currentPage--;
-           }
-         });
-      }
-      else{
-        this.bugsListService.searchBugsList(this.sortBy, this.currentPage-1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
-        .subscribe( resp =>{
-           if(resp.body.length){
-            //this.currentPage = 0;       // Must display the first page after a search
+      if (!this.searchFlag) {
+        this.bugsListService.getBugsList(this.sortBy, this.currentPage - 1).subscribe(resp => {
+          if (resp.body.length) {
             this.bugsList = resp.body;
             this.totalPages = resp.headers.get('Totalpages');
             this.currentPage--;
-           }
-         });
+          }
+        });
+      }
+      else {
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage - 1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
+          .subscribe(resp => {
+            if (resp.body.length) {
+              //this.currentPage = 0;       // Must display the first page after a search
+              this.bugsList = resp.body;
+              this.totalPages = resp.headers.get('Totalpages');
+              this.currentPage--;
+            }
+          });
       }
     }
   }
 
-  search(): void{
-    this.searchFlag= true;
+  search(): void {
+    this.searchFlag = true;
     this.currentPage = 0; // Must display the first page after a search
     this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
-    .subscribe( resp =>{
-      
-      this.bugsList = resp.body;
-      this.totalPages = resp.headers.get('Totalpages');
-    });
+      .subscribe(resp => {
+
+        this.bugsList = resp.body;
+        this.totalPages = resp.headers.get('Totalpages');
+      });
   }
 
-  resetSearch(): void{
+  resetSearch(): void {
     this.titleInput = "";
     this.priorityInput = null;
     this.reporterInput = null;
@@ -157,49 +161,49 @@ export class BugsListComponent implements OnInit {
     this.searchFlag = false;
   }
 
-  deleteBugs(event){
+  deleteBugs(event) {
     //console.log("mpampas"+event);
 
     // toggle delete notification
     this.deleteNotification = true;
-    
+
     // DELETE
-    this.bugsListService.deleteById(event).subscribe( ()=> {
+    this.bugsListService.deleteById(event).subscribe(() => {
 
-      
 
-    //  GET THE NEW LIST
-      if(!this.searchFlag){
+
+      //  GET THE NEW LIST
+      if (!this.searchFlag) {
         this.bugsListService.getBugsList(this.sortBy, this.currentPage)
-        .subscribe( resp => {  
-    
+          .subscribe(resp => {
+
+            this.bugsList = resp.body;
+            this.totalPages = resp.headers.get('Totalpages');
+
+            // check if the item deleted was on the last page
+            // if it's true we must go back a page, and load those bugs
+            if (this.currentPage.toString() == this.totalPages) {
+              this.currentPage--;
+              this.bugsListService.getBugsList(this.sortBy, this.currentPage)
+                .subscribe(resp => {
+                  this.bugsList = resp.body;
+                  //this.totalPages = resp.headers.get('Totalpages');
+                });
+            }
+
+          });
+      } else {
+        this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp => {
+
           this.bugsList = resp.body;
           this.totalPages = resp.headers.get('Totalpages');
 
           // check if the item deleted was on the last page
           // if it's true we must go back a page, and load those bugs
-          if(this.currentPage.toString() == this.totalPages){ 
-            this.currentPage--;
-            this.bugsListService.getBugsList(this.sortBy, this.currentPage)
-             .subscribe( resp => {
-                this.bugsList = resp.body;
-                //this.totalPages = resp.headers.get('Totalpages');
-              });
-          }
-          
-        });
-      }else{
-        this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp =>{
-
-          this.bugsList = resp.body;
-          this.totalPages = resp.headers.get('Totalpages');
-
-          // check if the item deleted was on the last page
-          // if it's true we must go back a page, and load those bugs
-          if(this.currentPage.toString() == this.totalPages){ 
+          if (this.currentPage.toString() == this.totalPages) {
             this.currentPage--;
             this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
-             .subscribe( resp => {
+              .subscribe(resp => {
                 this.bugsList = resp.body;
                 //this.totalPages = resp.headers.get('Totalpages');
               });
@@ -208,12 +212,17 @@ export class BugsListComponent implements OnInit {
         });
       }
     });
-    
-    // after 5 seconds hide the delete Notification
-    setTimeout(()=> {
-      this.deleteNotification = false; 
-    } ,5000);
 
+    // after 5 seconds hide the delete Notification
+    setTimeout(() => {
+      this.deleteNotification = false;
+    }, 5000);
+
+  }
+
+  setDeleteBug(id: string,title: string): void{
+    this.deleteBugId = id;
+    this.deleteBugTitle = title;
   }
 
 }

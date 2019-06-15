@@ -22,46 +22,46 @@ export class BugsListService {
    * the server
    * 
    */
- 
+
   getBugsList(sortBy: SortBy, page: number): Observable<HttpResponse<Bugs[]>> {
     console.log("getBugsList");
     if (sortBy.order === sortType.default) {
-      
-      return this.http.get<Bugs[]>(`${this.get_endpoint}/?page=${page}`,{observe:'response'});
+
+      return this.http.get<Bugs[]>(`${this.get_endpoint}/?page=${page}`, { observe: 'response' });
     }
-    return this.http.get<Bugs[]>(`${this.get_endpoint}/?sort=${sortBy.value},${sortBy.order}&page=${page}`,{observe:'response'});
+    return this.http.get<Bugs[]>(`${this.get_endpoint}/?sort=${sortBy.value},${sortBy.order}&page=${page}`, { observe: 'response' });
   }
 
-  searchBugsList(sortBy: SortBy, page: number, title:string, priority:string, reporter:string, status:string): Observable<HttpResponse<Bugs[]>>{
+  searchBugsList(sortBy: SortBy, page: number, title: string, priority: string, reporter: string, status: string): Observable<HttpResponse<Bugs[]>> {
     //page = 0;       // force the search for every item in the table
     let path = `${this.get_endpoint}?page=${page}`;
 
     // build the path
-    if(sortBy.order != sortType.default){
+    if (sortBy.order != sortType.default) {
       path = `${path}&sort=${sortBy.value},${sortBy.order}`;
     }
-    
-    if(title.trim() != ''){
+
+    if (title.trim() != '') {
       path = `${path}&title=${title}`;
     }
 
-    if(priority != null){
+    if (priority != null) {
       path = `${path}&priority=${priority}`;
     }
 
-    if(reporter != null){
+    if (reporter != null) {
       path = `${path}&reporter=${reporter}`;
     }
 
-    if(status != null){
+    if (status != null) {
       path = `${path}&status=${status}`;
     }
     console.log("SearchBugsList");
     console.log(path);
-    return this.http.get<Bugs[]>(path,{observe:'response'});
+    return this.http.get<Bugs[]>(path, { observe: 'response' });
   }
 
-  deleteById(id:string): Observable<{}>{
+  deleteById(id: string): Observable<{}> {
     return this.http.delete(`${this.get_endpoint}/${id}`);
   }
 }

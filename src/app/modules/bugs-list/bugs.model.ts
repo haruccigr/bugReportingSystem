@@ -9,7 +9,7 @@ export interface Bugs {
     comments: Comment[];
 };
 
-export interface Comment{
+export interface Comment {
     reporter: string;
     description: string;
 }
@@ -20,8 +20,8 @@ export interface SortBy {
 };
 
 export const enum sortType {
-    desc = "desc",
-    default = "default",
-    asc = "asc"
+    desc = 'desc',
+    default = 'default',
+    asc = 'asc'
 };
 

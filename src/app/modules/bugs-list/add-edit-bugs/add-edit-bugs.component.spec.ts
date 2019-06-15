@@ -43,26 +43,20 @@ describe('AddEditBugsComponent', () => {
 
   it('When the minimum required fields are given, the submit button is enabled', () => {
 
-
-    //fixture.detectChanges();
-
+    // define variables for every required HTML element in the form
+    const titleInput = fixture.debugElement.query(By.css("#title")).nativeElement;
+    const descriptionInput = fixture.debugElement.query(By.css("#description")).nativeElement;
+    const prioritySelect = fixture.debugElement.query(By.css("#priority")).nativeElement;
+    const reporterSelect = fixture.debugElement.query(By.css("#reporter")).nativeElement;
+    const statusSelect = fixture.debugElement.query(By.css("#status")).nativeElement;
  
-
     fixture.whenStable().then( () =>{
-      
-      // define variables for every required HTML element in the form
-      const titleInput = fixture.debugElement.query(By.css("#title")).nativeElement;
-      const descriptionInput = fixture.debugElement.query(By.css("#description")).nativeElement;
-      const prioritySelect = fixture.debugElement.query(By.css("#priority")).nativeElement;
-      const reporterSelect = fixture.debugElement.query(By.css("#reporter")).nativeElement;
-      const statusSelect = fixture.debugElement.query(By.css("#status")).nativeElement;
 
       // set the values for the input fields
       titleInput.value = 'tessssttt';
       descriptionInput.value = 'testt';
       titleInput.dispatchEvent(new Event('input'));
       descriptionInput.dispatchEvent(new Event('input'));
-
 
       // set the values for select options
       // REMEMBER [0] is null!!

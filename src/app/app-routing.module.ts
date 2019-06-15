@@ -8,10 +8,9 @@ import { PageNotFoundComponent } from './modules/bugs-list/page-not-found/page-n
 
 const routes: Routes = [
   {path: '', component: BugsListComponent},
-  {path: 'add',component: AddEditBugsComponent},
-  {path: 'edit/:id', component: AddEditBugsComponent,canActivate: [CheckIdExistenceService]},
-  {path: '**', component: PageNotFoundComponent}
-  
+  {path: 'add', component: AddEditBugsComponent},
+  {path: 'edit/:id', component: AddEditBugsComponent, canActivate: [CheckIdExistenceService]},
+  {path: '**', component: PageNotFoundComponent}  
 ];
 
 @NgModule({
