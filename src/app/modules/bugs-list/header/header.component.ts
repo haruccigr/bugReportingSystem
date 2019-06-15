@@ -1,4 +1,6 @@
-import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'bugReporting-header',
@@ -7,27 +9,33 @@ import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  darkMode = false;
+  route: string;
 
-  constructor(private elementRef: ElementRef) { }
+  @Output() clicked: EventEmitter<string> = new EventEmitter();
 
-  ngOnInit() {
+  constructor(location: Location, router: Router) {
+    router.events.subscribe((val) => {
+      if(location.path() === '/add'){
+        this.route = 'add';
+      }
+      else if(location.path() === ''){
+        this.route = 'home';
+      }
+       else {
+        this.route = 'edit';
+      }
+    });
   }
 
+  ngOnInit() {
+
+  }
+
+  
 
 
  toggleDarkMode():void{
-   let color;
-  if(!this.darkMode){
-    color = '#303030';
-    this.darkMode = true;
-  }
-  else{
-    color = 'white';
-    this.darkMode = false;
-  }
-  this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = color;
-  //window.document.body.style.backgroundColor =color;
+  this.clicked.emit('darkMode');
  }
 }
 
