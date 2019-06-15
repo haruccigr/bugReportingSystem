@@ -91,7 +91,7 @@ input[type=text], select{
     margin: 0px;
     background-color:rgb(238, 238, 238);
     border-radius: 25px;
-    box-shadow: 0 0 2px gray;
+    box-shadow: 0 0 5px rgb(128, 128, 128);
 }
 
 #bugIcon{
