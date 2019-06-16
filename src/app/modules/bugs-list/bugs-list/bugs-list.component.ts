@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BugsListService } from '../bugs-list.service';
 import { Bugs, sortType, SortBy } from '../bugs.model';
+import { GlobalsService } from '../globals.service';
 //import { AddEditModeService } from '../add-edit-mode.service';
 
 
@@ -26,7 +27,7 @@ export class BugsListComponent implements OnInit {
 
   deleteNotification: boolean;      // notification flag
 
-  constructor(private bugsListService: BugsListService) { }
+  constructor(private bugsListService: BugsListService,private globals: GlobalsService) { }
 
   ngOnInit() {
 
@@ -153,6 +154,10 @@ export class BugsListComponent implements OnInit {
       });
   }
 
+
+  /*
+  * For testing purposes
+  */
   resetSearch(): void {
     this.titleInput = "";
     this.priorityInput = null;

@@ -50,7 +50,7 @@
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                     <button id="searchBarRight" type="button" class="btn btn-outline-success"
-                        (click)=resetSearch()>Clear</button>
+                        (click)="ngOnInit()">Clear</button>
                 </div>
             </div>
         </form>
@@ -79,40 +79,40 @@
                     <th> Edit / Delete</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let item of bugsList">
+            <tbody >
+                <tr *ngFor="let item of bugsList" [class.dark]="globals.mode==='dark'">
                     <td>{{item.title}}</td>
                     <td>{{item.priority}}</td>
                     <td>{{item.reporter}}</td>
                     <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
                     <td>{{item.status}}</td>
-                    <td>    <button type="button" [routerLink]="['edit',item.id]" class="btn btn-secondary editButton"> <i
+                    <td>    <button type="button" [routerLink]="['edit',item.id]"  class="btn btn-secondary editButton"> <i
                                 class="fa fa-edit"></i> Edit</button>
                             <button id="deleteButton" class= "btn btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteBug(item.id,item.title)" > <i id="deleteIcon" class="fa fa-trash"></i> <span id="deleteText"> Delete</span> </button>
                     </td>
                 </tr>
-                  <!-- Modal that appears when the user presses the delete button -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color:rgb(236, 189, 79)">
-                        <h5 class="modal-title" id="deleteModalLabel">You are about to delete a bug</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                        Are you sure you want to delete the bug with title: <b> <i>'{{deleteBugTitle}}'</i></b> ?
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary editButton" data-dismiss="modal">No cancel</button>
-                        <button id="deleteButton" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteBugs(deleteBugId)">Yes delete it</button>
-                        </div>
-                    </div>
-                    </div>
-                </div>
             </tbody>
         </table>
+        <!-- Modal that appears when the user presses the delete button -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:rgb(236, 189, 79)">
+                <h5 class="modal-title" id="deleteModalLabel">You are about to delete a bug</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                Are you sure you want to delete the bug with title: <b> <i>'{{deleteBugTitle}}'</i></b> ?
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary editButton" data-dismiss="modal">No cancel</button>
+                <button id="deleteButton" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteBugs(deleteBugId)">Yes delete it</button>
+                </div>
+            </div>
+            </div>
+        </div>
     </div>
 
     <!-- PAGINATION -->

@@ -14,8 +14,8 @@
     border: 1px solid;
     border-color: gray;
     border-radius: 25px;
-    background-color:white;
-    box-shadow: 0px 0px 5px rgb(29, 63, 119);
+    background-color:rgba(255, 255, 255, 0.424);
+    box-shadow: 0 0 5px rgb(128, 128, 128);
 }
 /*
 #editForm:hover{
@@ -110,11 +110,18 @@ hr{
   transform: translateY(-7px);
  }
 
+#comments.dark:hover{
+  border-color: rgba(255, 216, 45, 0.685);
+}
+
+
 input, textarea{
   border: none;
   border-radius:0px;
+  background-color:rgba(255, 255, 255, 0);
   border-bottom: 1px solid gray;
 }
+
 
 input:hover, textarea:hover{
   box-shadow: 0 4px 2px -2px gray;
@@ -123,25 +130,81 @@ input:hover, textarea:hover{
 input:focus, textarea:focus{
   outline: none !important;
   box-shadow: none;
+  background-color:rgba(255, 255, 255, 0);
   border-bottom: 2px solid rgb(126, 126, 255);
 }
 
+input.dark, textarea.dark{
+  color:#fff2db;
+  border-bottom: 2px solid rgb(88, 88, 88);
+}
+
+input.dark:hover, textarea.dark:hover{
+  box-shadow: 0 4px 2px -2px rgb(88, 88, 88);
+}
+
+input.dark:focus, textarea.dark:focus{
+  outline: none !important;
+  box-shadow: none;
+  border-bottom: 2px solid rgb(255, 216, 45);
+}
+
+select{
+  border: 1px solid rgb(92, 92, 92);
+  background-color:rgba(255, 255, 255, 0);
+}
+
+select:hover{
+  border: 2px solid gray;
+  box-shadow: 0 0px 5px gray;
+}
+
+select:focus{
+  border: 1px solid rgb(92, 92, 92);
+  box-shadow: none;
+  background-color:rgba(255, 255, 255, 0);
+}
+
+select.dark{
+  color:#fff2db;
+}
+
+select.dark:hover{
+  border: 2px solid rgb(88, 88, 88);
+  box-shadow: 0 0px 5px rgb(88, 88, 88);
+}
+
+select.dark:focus{
+
+  background-color:rgba(255, 255, 255, 0);
+}
 
 ::placeholder{
   font-style:italic;
-  color:rgb(161, 161, 161);
+  color:rgba(0, 0, 0, 0.315);
   opacity: 10;
 }
 
+label.dark{
+  color:#414141;
+}
+
+
 legend{
   width:auto;
-  color: gray;
+  color: rgba(0, 0, 0, 0.486);
   font-size: 17px;
 }
 
 hr{
   margin-top:0px;
-  border-color: rgb(194, 194, 194);
-  background-color:rgb(194, 194, 194);
-  color: rgb(194, 194, 194);
+  border-color: rgba(98, 98, 98, 0.513);
+  background-color:rgba(98, 98, 98, 0.513);
+  color: rgba(98, 98, 98, 0.513);
 }
+
+.alert.dark{
+  opacity: 0.75;
+}
+
+

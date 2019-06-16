@@ -3,6 +3,7 @@ import { Bugs, Comment } from '../bugs.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddEditBugsService } from '../add-edit-bugs.service';
 import { BugsListService } from '../bugs-list.service';
+import { GlobalsService } from '../globals.service';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class AddEditBugsComponent implements OnInit {
   selectedPriority = null;      // used to save user input priority (which is a string)
 
   constructor(private _route: ActivatedRoute, private _addEditBugsService: AddEditBugsService,
-    private _bugsListService: BugsListService, private _next_route: Router) {
+    private _bugsListService: BugsListService, private _next_route: Router,private globals: GlobalsService) {
   }
 
   ngOnInit() {
@@ -61,6 +62,9 @@ export class AddEditBugsComponent implements OnInit {
         this.selectedPriority = this.priorityToString(data.priority);
         //get data
         this.bug = data;
+        if(this.bug.comments === null){
+          this.bug.comments = [];
+        }
 
       });
 

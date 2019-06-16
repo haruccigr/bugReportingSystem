@@ -89,7 +89,7 @@ input[type=text], select{
 #bugsTable{
     padding: 20px;
     margin: 0px;
-    background-color:rgb(238, 238, 238);
+    background-color:rgba(238, 238, 238, 0.424);
     border-radius: 25px;
     box-shadow: 0 0 5px rgb(128, 128, 128);
 }
@@ -152,6 +152,10 @@ input[type=text], select{
     transform: translateY(-5px);
     border: 1px solid gray;
     box-shadow: 0 0 10px rgb(243, 243, 243);
+}
+
+.dark:hover{
+    color:rgb(248, 201, 45);
 }
 
 /* responsive view for the delete button */

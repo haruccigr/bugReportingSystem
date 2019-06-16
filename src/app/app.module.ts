@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { BugsListModule } from './modules/bugs-list/bugs-list.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { bugsListInterceptor } from './bugListInterceptor.service';
+import { GlobalsService } from './modules/bugs-list/globals.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { bugsListInterceptor } from './bugListInterceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: bugsListInterceptor,
       multi: true
-    }
+    },
+    GlobalsService
   ],
   bootstrap: [AppComponent]
 })
