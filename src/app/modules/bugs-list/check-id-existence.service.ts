@@ -16,15 +16,32 @@ export class CheckIdExistenceService implements CanActivate {
     private addEditService: AddEditBugsService) {
 
   }
+
+
+  /**
+   *  
+   * @param next: defined in the interface of CanActivate
+   * @param state: defined in the interface of CanActivate.
+   * 
+   * 
+   * @returns an Observable<boolean>. It is the guard service for the edid page. Checks if
+   *          the ID of the item to be edited exists. If it's found in the database, returns true
+   *          and the user can edit that bug, otherwise it returns false the user is redirected to
+   *          a 404 page not found.
+   *  
+   */
+
+
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+ 
     let id = next.params.id;
 
     return this.addEditService.getBugById(id).pipe(map(
       data => {
-        if (data == null) {
+        if (data == null) { // not found
           return false;
         }
-        return true;
+        return true;        // success
       }
     ),
       catchError(() => {

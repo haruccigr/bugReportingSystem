@@ -94,10 +94,10 @@ export class BugsListComponent implements OnInit {
           this.totalPages = resp.headers.get('Totalpages');
         });
     } else {
-      this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput).subscribe(resp => {
-        //this.currentPage = 0;       // Must display the first page after a search
-        this.bugsList = resp.body;
-        this.totalPages = resp.headers.get('Totalpages');
+      this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
+        .subscribe(resp => {
+          this.bugsList = resp.body;
+          this.totalPages = resp.headers.get('Totalpages');
       });
     }
 
@@ -115,7 +115,7 @@ export class BugsListComponent implements OnInit {
 
 
   navigate(action: string): void {
-    //console.log("KLISI NAVIGATE" + this.currentPage);
+  
     if (action === "next") {
       if (!this.searchFlag) {
 
@@ -130,9 +130,9 @@ export class BugsListComponent implements OnInit {
       else {
         this.bugsListService.searchBugsList(this.sortBy, this.currentPage + 1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
           .subscribe(resp => {
-            //console.log("KLISI SEARCH" + this.currentPage);
+         
             if (resp.body.length) {
-              //this.currentPage = 0;     // Must display the first page after a search
+             
               this.bugsList = resp.body;
               this.totalPages = resp.headers.get('Totalpages');
               this.currentPage++;
@@ -157,7 +157,7 @@ export class BugsListComponent implements OnInit {
         this.bugsListService.searchBugsList(this.sortBy, this.currentPage - 1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
           .subscribe(resp => {
             if (resp.body.length) {
-              //this.currentPage = 0;       // Must display the first page after a search
+          
               this.bugsList = resp.body;
               this.totalPages = resp.headers.get('Totalpages');
               this.currentPage--;
@@ -178,8 +178,9 @@ export class BugsListComponent implements OnInit {
 
 
   search(): void {
+
     this.searchFlag = true;
-    this.currentPage = 0; // Must display the first page after a search
+    this.currentPage = 0;       // Must display the first page after a search
     this.bugsListService.searchBugsList(this.sortBy, this.currentPage, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
       .subscribe(resp => {
 
@@ -219,7 +220,6 @@ export class BugsListComponent implements OnInit {
  */
 
   deleteBugs(event) {
-    //console.log("mpampas"+event);
 
     // toggle delete notification
     this.deleteNotification = true;

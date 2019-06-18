@@ -32,14 +32,16 @@ export class AddEditBugsComponent implements OnInit {
 
   addPostFlag = false;          // disables the submit button after the add
   editPostFlag = false;         // a flag for an Edit submit. When true a notification that an
-  // an edit occured appears. Also used to disable the button after
-  // the edit to prevent duplicated entries
+                                // an edit occured appears. Also used to disable the button after
+                                 // the edit to prevent duplicated entries
 
+  selectedPriority = null;      // used to save user input priority (which is a string) 
+  
+  // auxiliary tables for select options
   priorities = ['Minor', 'Major', 'Critical'];
   reporter = ['QA', 'PO', 'DEV'];
   status = ['Ready for test', 'Done', 'Rejected'];
 
-  selectedPriority = null;      // used to save user input priority (which is a string)
 
   constructor(private _route: ActivatedRoute, private _addEditBugsService: AddEditBugsService,
     private _bugsListService: BugsListService, private _next_route: Router, private globals: GlobalsService) {
@@ -56,6 +58,7 @@ export class AddEditBugsComponent implements OnInit {
    */
 
   ngOnInit() {
+
     // set the mode based on id's existence in the url
     let id = this._route.snapshot.params.id;
 
@@ -69,8 +72,10 @@ export class AddEditBugsComponent implements OnInit {
       this.addedComment = { reporter: '', description: '' };
 
       this._addEditBugsService.getBugById(id).subscribe(data => {
+
         // Cast priority from number to the 3 available options
         this.selectedPriority = this.priorityToString(data.priority);
+
         //get data
         this.bug = data;
         if (this.bug.comments === null) {
@@ -95,22 +100,17 @@ export class AddEditBugsComponent implements OnInit {
   priorityToString(priority: number): string {
     //Cast priority
     if (priority === 1) {
-      console.log("Minor");
       return this.priorities[0];
 
     }
     else if (priority === 2) {
-      console.log("Major");
       return this.priorities[1];
 
     }
     else if (priority === 3) {
-      console.log("Critical");
       return this.priorities[2];
     }
     else {
-      console.log("Priority > 3");
-      console.log(priority);
       return this.priorities[2];
 
     }
@@ -182,7 +182,7 @@ export class AddEditBugsComponent implements OnInit {
         // push new comment since it's not blank
         this.bug.comments = [...this.bug.comments, { ...this.addedComment }];
       }
-      console.log(this.bug);
+      
       this._addEditBugsService.putBug(id, this.bug).subscribe();
 
       // set the flag for the Edit notification

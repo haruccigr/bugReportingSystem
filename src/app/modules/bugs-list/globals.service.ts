@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalsService {
-  mode: string;
+  mode: string;       // dark or white mode, a global variable
 
   constructor() {
     this.mode = '';

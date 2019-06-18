@@ -13,6 +13,7 @@ export class BugsListService {
 
   constructor(private http: HttpClient) { }
 
+
   /**
    * 
    * @param sortBy a variable which holds information about whether the
@@ -23,8 +24,9 @@ export class BugsListService {
    * 
    */
 
+
   getBugsList(sortBy: SortBy, page: number): Observable<HttpResponse<Bugs[]>> {
-    console.log("getBugsList");
+    
     if (sortBy.order === sortType.default) {
 
       return this.http.get<Bugs[]>(`${this.get_endpoint}/?page=${page}`, { observe: 'response' });
@@ -32,8 +34,24 @@ export class BugsListService {
     return this.http.get<Bugs[]>(`${this.get_endpoint}/?sort=${sortBy.value},${sortBy.order}&page=${page}`, { observe: 'response' });
   }
 
+
+  /**
+   * 
+   * @param sortBy: The type of sort. Can be default, asc or desc.
+   * @param page: The number of page to be fetched from the databse. Type of number.
+   * @param title: The title of the bug to be used as a searching filter. Type of string.
+   * @param priority: The priority of the bug to be used as a searching filter. Type of string.
+   * @param reporter: The reporter of the bug to be used as a searching filter. Type of string.
+   * @param status: The status of the bug to be used as a searching filter. Type of string.
+   * 
+   * @returns an Observable<HttpResponse<Bugs[]>>. The user gives the query parameters to be used
+   *          as searching filters, and the service returns an Array of Bugs matching that criteria.
+   *          If no matching record has been found, the empty array [] is returned instead.
+   */
+
+
   searchBugsList(sortBy: SortBy, page: number, title: string, priority: string, reporter: string, status: string): Observable<HttpResponse<Bugs[]>> {
-    //page = 0;       // force the search for every item in the table
+
     let path = `${this.get_endpoint}?page=${page}`;
 
     // build the path
@@ -56,12 +74,23 @@ export class BugsListService {
     if (status != null) {
       path = `${path}&status=${status}`;
     }
-    console.log("SearchBugsList");
-    console.log(path);
+
     return this.http.get<Bugs[]>(path, { observe: 'response' });
   }
+
+
+  /**
+   * 
+   * @param id: The id of the Bug to be deleted. Type of string.
+   * 
+   * @returns an Observable<{}>. It gets the id of the bug to be deleted
+   *          and if found in the database deletes it. Returns an empty object
+   *          either way.
+   */
+
 
   deleteById(id: string): Observable<{}> {
     return this.http.delete(`${this.get_endpoint}/${id}`);
   }
+  
 }
