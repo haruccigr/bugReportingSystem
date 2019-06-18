@@ -14,6 +14,8 @@ export class HeaderComponent implements OnInit {
   @Output() clicked: EventEmitter<string> = new EventEmitter();
 
   constructor(location: Location, router: Router) {
+
+    // controls the navbar navigation
     router.events.subscribe((val) => {
       if(location.path() === '/add'){
         this.route = 'add';

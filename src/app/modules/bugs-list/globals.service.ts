@@ -5,7 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalsService {
   mode: string;
+
   constructor() {
     this.mode = '';
    }
+   
 }

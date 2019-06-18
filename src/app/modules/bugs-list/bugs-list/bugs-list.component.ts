@@ -12,22 +12,34 @@ import { GlobalsService } from '../globals.service';
 })
 export class BugsListComponent implements OnInit {
 
-  bugsList: Bugs[];
-  sortBy: SortBy;
-  currentPage: number;
-  titleInput: string;
-  priorityInput: string;
-  reporterInput: string;
-  statusInput: string;
-  searchFlag: boolean;
-  totalPages: string;
+  bugsList: Bugs[];                 // stores the bugs loaded from the service
+  sortBy: SortBy;                   // stores the sorting status
+  currentPage: number;              // the current viewing page
+  titleInput: string;               // title input in advanced search
+  priorityInput: string;            // priority input in advanced search
+  reporterInput: string;            // reporter input in advanced search
+  statusInput: string;              // status input in advanced search
+  searchFlag: boolean;              // a flag triggered when the user searches for something
+  totalPages: string;               // the total page count of the bug list
 
   deleteBugId: string;              // the ID of the bug to be deleted
   deleteBugTitle: string;           // the title of the bug to be deleted
 
   deleteNotification: boolean;      // notification flag
 
-  constructor(private bugsListService: BugsListService,private globals: GlobalsService) { }
+  constructor(private bugsListService: BugsListService, private globals: GlobalsService) { }
+
+
+  /**
+   * 
+   * Takes no parameteres
+   * 
+   * @returns nothing; It's the init function of the component. 
+   *          Gets called on instatiation of the component and 
+   *          when the user presses the Clear button in advanced search
+   * 
+   */
+
 
   ngOnInit() {
 
@@ -60,6 +72,7 @@ export class BugsListComponent implements OnInit {
    * Convension: By default the first sort will be descending.
    */
 
+
   sort(val: string): void {
 
     this.sortBy.value = val;
@@ -90,8 +103,19 @@ export class BugsListComponent implements OnInit {
 
   }
 
+
+  /**
+   * 
+   * @param action is the navigation action that triggered the function call
+   *                can be either 'previous' or 'next'
+   * 
+   * @returns nothing; gets the next or the previous viewing page in the bugs list
+   * 
+   */
+
+
   navigate(action: string): void {
-    console.log("KLISI NAVIGATE" + this.currentPage);
+    //console.log("KLISI NAVIGATE" + this.currentPage);
     if (action === "next") {
       if (!this.searchFlag) {
 
@@ -106,7 +130,7 @@ export class BugsListComponent implements OnInit {
       else {
         this.bugsListService.searchBugsList(this.sortBy, this.currentPage + 1, this.titleInput, this.priorityInput, this.reporterInput, this.statusInput)
           .subscribe(resp => {
-            console.log("KLISI SEARCH" + this.currentPage);
+            //console.log("KLISI SEARCH" + this.currentPage);
             if (resp.body.length) {
               //this.currentPage = 0;     // Must display the first page after a search
               this.bugsList = resp.body;
@@ -143,6 +167,16 @@ export class BugsListComponent implements OnInit {
     }
   }
 
+  /**
+   * 
+   * Takes no parameteres.
+   * 
+   * @returns nothing; It is an auxiliary function used for testing
+   *          purposes only.
+   * 
+   */
+
+
   search(): void {
     this.searchFlag = true;
     this.currentPage = 0; // Must display the first page after a search
@@ -155,9 +189,15 @@ export class BugsListComponent implements OnInit {
   }
 
 
-  /*
-  * For testing purposes
+  /**
+  * 
+  * Takes no parameteres.
+  * 
+  * @returns nothing; searches the bug list for the user's inputs
+  *          and stores the result into the bugsList property
+  * 
   */
+
   resetSearch(): void {
     this.titleInput = "";
     this.priorityInput = null;
@@ -165,6 +205,18 @@ export class BugsListComponent implements OnInit {
     this.statusInput = null;
     this.searchFlag = false;
   }
+
+
+  /**
+ * 
+ * @param event is ID of the bug to be deleted
+ * 
+ * @returns nothing; It gets called after the setDeleteBug() when the user
+ *          presses the "Yes delete" button of the modal. If the user decides
+ *          to go forward with the delete it deletes the bug from the database and stores
+ *          the new bugList in the property to be displayed.
+ * 
+ */
 
   deleteBugs(event) {
     //console.log("mpampas"+event);
@@ -174,8 +226,6 @@ export class BugsListComponent implements OnInit {
 
     // DELETE
     this.bugsListService.deleteById(event).subscribe(() => {
-
-
 
       //  GET THE NEW LIST
       if (!this.searchFlag) {
@@ -225,7 +275,19 @@ export class BugsListComponent implements OnInit {
 
   }
 
-  setDeleteBug(id: string,title: string): void{
+
+
+  /**
+   * 
+   * @param id is ID of the bug to be deleted
+   * @param tile is title of the bug to be deleted
+   * 
+   * @returns nothing; It is called before the deleteBugs(), and sets
+   *          the chosen bug to a variable.
+   * 
+   */
+
+  setDeleteBug(id: string, title: string): void {
     this.deleteBugId = id;
     this.deleteBugTitle = title;
   }
