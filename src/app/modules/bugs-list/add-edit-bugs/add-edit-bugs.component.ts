@@ -44,7 +44,7 @@ export class AddEditBugsComponent implements OnInit {
 
 
   constructor(private _route: ActivatedRoute, private _addEditBugsService: AddEditBugsService,
-    private _bugsListService: BugsListService, private _next_route: Router, private globals: GlobalsService) {
+    private _bugsListService: BugsListService, private _next_route: Router, public readonly globals: GlobalsService) {
   }
 
   /**
